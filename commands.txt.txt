@@ -1,0 +1,134 @@
+=========================================
+EV DIAGNOSTIC ASSISTANT - COMMAND GUIDE
+=========================================
+
+---------------------------
+1️⃣ FIRST TIME SETUP
+---------------------------
+
+# Go to project folder
+cd "C:\Users\ganav\OneDrive\Desktop\ev_rag_assistant"
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+venv\Scripts\activate
+
+# Install required packages
+pip install streamlit chromadb pypdf ollama
+
+
+---------------------------
+2️⃣ INSTALL OLLAMA MODELS
+---------------------------
+
+# Pull embedding model
+ollama pull all-minilm
+
+# Pull ultra-light LLM (recommended for 8GB RAM)
+ollama pull qwen:0.5b
+
+# (Optional alternative)
+ollama pull tinyllama
+
+
+---------------------------
+3️⃣ CREATE VECTOR DATABASE
+---------------------------
+
+# Make sure you are inside project folder
+cd "C:\Users\ganav\OneDrive\Desktop\ev_rag_assistant"
+venv\Scripts\activate
+
+# Delete old database (if exists)
+Remove-Item -Recurse -Force ev_db
+
+# Run ingestion
+python ingest.py
+
+
+Wait until you see:
+✅ Vector DB created successfully!
+
+
+---------------------------
+4️⃣ RUN THE APPLICATION
+---------------------------
+
+# Activate venv if not active
+venv\Scripts\activate
+
+# Run Streamlit app
+streamlit run app.py
+
+Open browser:
+http://localhost:8501
+
+
+---------------------------
+5️⃣ CHECK RUNNING OLLAMA MODELS
+---------------------------
+
+# See active models
+ollama ps
+
+# Stop running model (if memory issue)
+ollama stop qwen:0.5b
+ollama stop tinyllama
+ollama stop all-minilm
+
+
+---------------------------
+6️⃣ IF MEMORY ERROR OCCURS
+---------------------------
+
+# Stop all models
+ollama stop qwen:0.5b
+ollama stop tinyllama
+ollama stop all-minilm
+
+# Restart Streamlit
+streamlit run app.py
+
+
+---------------------------
+7️⃣ RESET EVERYTHING (CLEAN START)
+---------------------------
+
+cd "C:\Users\ganav\OneDrive\Desktop\ev_rag_assistant"
+venv\Scripts\activate
+
+Remove-Item -Recurse -Force ev_db
+python ingest.py
+streamlit run app.py
+
+
+---------------------------
+8️⃣ OPTIONAL: UPDATE PIP
+---------------------------
+
+python -m pip install --upgrade pip
+
+
+=========================================
+PROJECT STRUCTURE SHOULD LOOK LIKE:
+=========================================
+
+ev_rag_assistant/
+│
+├── data/
+│   ├── ev_training_manual.pdf
+│   └── other_pdfs.pdf
+│
+├── ev_db/
+├── ingest.py
+├── chatbot.py
+├── app.py
+├── requirements.txt
+├── commands.txt
+└── venv/
+
+=========================================
+END OF COMMANDS
+=========================================
